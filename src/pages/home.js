@@ -1,21 +1,11 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom';
 
 
 function Home() {
   return (
     <main>
         <section className="bg-gray-900 text-white py-20 px-6 md:px-8 lg:px-10 relative">
-        {/* <img
-          alt="Medical Equipment"
-          className="absolute inset-0 h-full w-full object-cover opacity-50"
-          height="800"
-          src="/placeholder.svg"
-          style={{
-            aspectRatio: "1200/800",
-            objectFit: "cover",
-          }}
-          width="1200"
-        /> */}
         <div className="container mx-auto grid grid-cols-1  gap-8 items-center text-center  relative z-10">
           <div>
             <h1 className="text-2xl md:text-4xl font-bold mb-4 text-yellow-400">Rent Medical Equipment with Ease</h1>
@@ -23,9 +13,9 @@ function Home() {
               Our rental service provides high-quality medical equipment for all your needs. Get the equipment you need,
               when you need it.
             </p>
-            <button className="px-6 py-3 border rounded-xl hover:bg-gray-700 duration-500 ease-in-out" variant="primary">
+            <NavLink to="/register" className="px-6 py-3 border rounded-xl hover:bg-gray-700 duration-500 ease-in-out" variant="primary">
               Rent Now
-            </button>
+            </NavLink>
           </div>
         </div>
       </section>

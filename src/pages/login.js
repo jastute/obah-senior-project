@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import {toast, Toaster} from 'react-hot-toast'
 import { useNavigate } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
+
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
@@ -107,6 +109,8 @@ if (response.status === 200) {
               {loading ? <p className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite]"></p> : "Login"}
             </button>
           </div>
+         
+          <p>Don't have an account? <NavLink to="/register" className="text-blue-500">Register</NavLink></p>
         </form>
       </div>
       <Toaster/>

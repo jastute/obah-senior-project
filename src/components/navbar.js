@@ -79,12 +79,12 @@ function Navbar() {
                 <UserProfileCard/>
               )}
               </div>
-              ):(<ul className='flex md:hidden gap-1'>
+              ):(<ul className='flex md:hidden gap-2'>
                           <li>
-                              <NavLink to="/login" onClick={() => setIsOpen(false)}  className={`hidden md:block py-2 px-3 text-gray-50  rounded bg-[#48af6e] hover:bg-[#54ca7f]  md:hover:bg-transparent md:border-0 md:hover:text-secondary  md:p-0 `}>Login</NavLink>
+                              <NavLink to="/login" onClick={() => setIsOpen(false)}  className={`block py-2 px-3 text-gray-50  border hover:bg-gray-700 duration-500 ease-in-out cursor-pointer  rounded-xl `}>Login</NavLink>
                               </li>
                               <li>
-                              <NavLink to="/register" onClick={() => setIsOpen(false)}  className={`block py-2 px-3 text-gray-50  border hover:bg-gray-700 duration-500 ease-in-out cursor-pointer  rounded-xl`}>Register</NavLink>
+                              <NavLink to="/register" onClick={() => setIsOpen(false)}  className={`hidden md:block py-2 px-3 text-gray-50  border hover:bg-gray-700 duration-500 ease-in-out cursor-pointer  rounded-xl`}>Register</NavLink>
                           </li> 
                         </ul>)
                   }

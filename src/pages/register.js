@@ -1,6 +1,7 @@
   import React, { useState } from "react";
   import { toast, Toaster } from 'react-hot-toast';
   import { useNavigate } from "react-router-dom";
+  import { NavLink } from 'react-router-dom'; 
 
 export default function Register() {
   const [loading, setLoading]= useState(false)
@@ -186,6 +187,12 @@ export default function Register() {
           </button>
           
         </div>
+        <p className="text-center text-gray-500">
+          Already have an account?{" "}
+          <NavLink to="/login" className="text-[#111827] hover:underline">
+            Login
+          </NavLink>
+        </p>
       </form>
     </div>
     <Toaster />
