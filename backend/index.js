@@ -34,6 +34,10 @@ const UserSchema = new mongoose.Schema({
 const User = mongoose.model('User', UserSchema);
 
 
+app.get('/',(req,res)=>{
+    res.status(200).send("Hello from the server") 
+})
+
 
 
 // login
