@@ -49,7 +49,7 @@ if (response.status === 200) {
       setTimeout(() => {
         window.location.href = "/";
         
-      },2000)
+      },1000)
     }else if (response.status === 401) throw new Error("Invalid credentials")
      else throw new Error("Login failed");
     } catch (error) {

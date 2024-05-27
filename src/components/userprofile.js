@@ -30,6 +30,7 @@ const UserProfileCard = () => {
     <div className="space-y-1 text-center">
       <h4 className="text-lg font-semibold text-slate-800">{userData?.fullName}</h4>
       <p className="text-sm text-gray-500">{userData?.email}</p>
+      <p className="text-sm text-gray-500">{userData?.organisation}</p>
     </div>
     <div className="grid w-full gap-2">
       <NavLink
