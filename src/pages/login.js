@@ -25,41 +25,46 @@ export default function Login() {
   // sumbit data to backend
   const handleSubmit = async(e) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const response = await fetch("https://medrent-server.vercel.app/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-if (response.status === 200) {
-      toast.success("Login successful!", {
-        duration: 2000,
-        position: "top-center",
-      });
-    
-      //  extract the user redentials from the response
-    const data= await response.json();
-    // store the data in session storage
-    sessionStorage.setItem("user", JSON.stringify(data.user));
-    
-      // redirect to dashboard
-      setTimeout(() => {
-        window.location.href = "/";
-        
-      },1000)
-    }else if (response.status === 401) throw new Error("Invalid credentials")
-     else throw new Error("Login failed");
-    } catch (error) {
-      toast.error(error.message, {
-        duration: 2000,
-        position: "top-center",
-      });
-    }finally{
-      setLoading(false);
+    toast.loading("Login Comming Soon", {
+      duration: 5000,
+      position: "top-center",
     }
+    )
+//     setLoading(true);
+//     try {
+//       const response = await fetch("https://medrent-server.vercel.app/api/auth/login", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(formData),
+//     })
+// if (response.status === 200) {
+//       toast.success("Login successful!", {
+//         duration: 2000,
+//         position: "top-center",
+//       });
+    
+//       //  extract the user redentials from the response
+//     const data= await response.json();
+//     // store the data in session storage
+//     sessionStorage.setItem("user", JSON.stringify(data.user));
+    
+//       // redirect to dashboard
+//       setTimeout(() => {
+//         window.location.href = "/";
+        
+//       },1000)
+//     }else if (response.status === 401) throw new Error("Invalid credentials")
+//      else throw new Error("Login failed");
+//     } catch (error) {
+//       toast.error(error.message, {
+//         duration: 2000,
+//         position: "top-center",
+//       });
+//     }finally{
+//       setLoading(false);
+//     }
   };
 
   return (
