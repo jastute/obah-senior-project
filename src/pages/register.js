@@ -28,54 +28,49 @@ export default function Register() {
   // sumbit data to backend
   const handleSubmit = async(e) => {
     e.preventDefault();
-    // setLoading(true);
-    toast.loading("Registering Comming Soon", {
-      duration: 5000,
-      position: "top-center",
+    setLoading(true);
+   
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords do not match", {
+        duration: 2000,
+        position: "top-center",
+      });
+      setLoading(false);
+      return;
     }
-    )
 
-    // if (formData.password !== formData.confirmPassword) {
-    //   toast.error("Passwords do not match", {
-    //     duration: 2000,
-    //     position: "top-center",
-    //   });
-    //   setLoading(false);
-    //   return;
-    // }
+    try {
+      const response = await fetch("https://medrent-server.vercel.app/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
 
-    // try {
-    //   const response = await fetch("https://medrent-server.vercel.app/api/auth/register", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(formData),
-    // })
-
-    // if (response.status === 201) {
-    //   toast.success("Register successful!", {
-    //     duration: 2000,
-    //     position: "top-center",
-    //   });
-    //   setTimeout(() => {
-    //     navigate("/login");
-    //   },2000)
-    // } else if (response.status === 400) {
-    //   toast.error("User already exists!", {
-    //     duration: 2000,
-    //     position: "top-center",
-    //   });
-    // }
-    // else throw new Error("Register failed");
-    // } catch (error) {
-    //   toast.error(error.message, {
-    //     duration: 2000,
-    //     position: "top-center",
-    //   });
-    // }finally{
-    //   setLoading(false);
-    // }
+    if (response.status === 201) {
+      toast.success("Register successful!", {
+        duration: 2000,
+        position: "top-center",
+      });
+      setTimeout(() => {
+        navigate("/login");
+      },2000)
+    } else if (response.status === 400) {
+      toast.error("User already exists!", {
+        duration: 2000,
+        position: "top-center",
+      });
+    }
+    else throw new Error("Register failed");
+    } catch (error) {
+      toast.error(error.message, {
+        duration: 2000,
+        position: "top-center",
+      });
+    }finally{
+      setLoading(false);
+    }
   };
 
   return (

@@ -108,7 +108,7 @@ function Navbar() {
             </li>
             
             <li>
-                <NavLink to="/services" onClick={() => setIsOpen(false)}  className={`block py-2 px-3 text-gray-100  rounded hover:bg-gray-800 md:hover:bg-transparent md:border-0 md:hover:text-secondary  md:p-0  `}>Services</NavLink>
+                <NavLink to="/equipmemts" onClick={() => setIsOpen(false)}  className={`block py-2 px-3 text-gray-100  rounded hover:bg-gray-800 md:hover:bg-transparent md:border-0 md:hover:text-secondary  md:p-0  `}>Equipments</NavLink>
             </li>
 
             <li>
