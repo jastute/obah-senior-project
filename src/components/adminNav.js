@@ -1,9 +1,10 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
-import UserProfileCard from './userprofile';
 import { FaUserCircle } from "react-icons/fa";
+import UserProfileCard from './userprofile';
 
-function Navbar() {
+function AdminNav() {
   const [isOpen, setIsOpen] = useState(false);
   const [isCardVisible, setIsCardVisible] = useState(false);
   const navRef = useRef(null);
@@ -54,17 +55,13 @@ function Navbar() {
 
   return (
     <nav ref={navRef} className="  bg-[#111827] text-gray-100 shadow border-b border-gray-700">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
       <div className='text-xl md:text-2xl font-bold'>
-         MedRent
+         Admin
       </div>
 
        <div className='flex  md:hidden gap-4'>
-      {/* for small screen */}
-            {    
-              userData ? (
-                <div>
-                <ul className='flex  gap-2'
+       <ul className='flex  gap-2'
                     onClick={()=>setIsCardVisible(!isCardVisible)}
                 >
                 <li>
@@ -77,18 +74,14 @@ function Navbar() {
               </ul>
 
               {isCardVisible && (
-                <UserProfileCard ref={navRef}/>
+                // <UserProfileCard />
+                // <div className='absolute top-14 right-0 h-40 w-40 bg-white-500 shadow-lg rounded-md bg-slate-50 z-10'>
+                //     <h1 className='text-black'>Hello</h1>
+                // </div>
+                <div className='absolute right-0 top-12 shadow-lg flex md:hidden'>
+                <UserProfileCard />
+                </div>
               )}
-              </div>
-              ):(<ul className='flex gap-2'>
-                          <li>
-                              <NavLink to="/login" onClick={() => setIsOpen(false)}  className={`block py-2 px-3 text-gray-50  border hover:bg-gray-700 duration-500 ease-in-out cursor-pointer  rounded-xl `}>Login</NavLink>
-                              </li>
-                              <li>
-                              <NavLink to="/register" onClick={() => setIsOpen(false)}  className={`hidden md:block py-2 px-3 text-gray-50  border hover:bg-gray-700 duration-500 ease-in-out cursor-pointer  rounded-xl`}>Register</NavLink>
-                          </li> 
-                        </ul>)
-                  }
         <button
           onClick={toggleMenu}
           type="button"
@@ -105,51 +98,37 @@ function Navbar() {
         <div className={`w-full md:flex items-center gap-40 md:w-auto ${isOpen ? 'block' : 'hidden'} `} id="navbar-default">
           <ul className="font-medium  flex flex-col p-4 md:p-0 mt-4 border bg-[#111827]  border-gray-100 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 text-gray-100 md:b-primary">
             <li>
-            <NavLink to="/" onClick={() => setIsOpen(false)}  className={`block py-2 px-3 text-gray-100  rounded hover:bg-gray-800 md:hover:bg-transparent md:border-0 md:hover:text-secondary  md:p-0 `}>Home</NavLink>
+            <NavLink to="/admin" onClick={() => setIsOpen(false)}  className={`block py-2 px-3 text-gray-100  rounded hover:bg-gray-800 md:hover:bg-transparent md:border-0 md:hover:text-secondary  md:p-0 `}>Dashboard</NavLink>
             </li>
             
             <li>
-                <NavLink to="/equipmemts" onClick={() => setIsOpen(false)}  className={`block py-2 px-3 text-gray-100  rounded hover:bg-gray-800 md:hover:bg-transparent md:border-0 md:hover:text-secondary  md:p-0  `}>Equipments</NavLink>
+                <NavLink to="/admin/inventory" onClick={() => setIsOpen(false)}  className={`block py-2 px-3 text-gray-100  rounded hover:bg-gray-800 md:hover:bg-transparent md:border-0 md:hover:text-secondary  md:p-0  `}>Inventory</NavLink>
             </li>
 
             <li>
-            <NavLink to="/aboutus" onClick={() => setIsOpen(false)}  className={`block py-2 px-3 text-gray-100  rounded hover:bg-gray-800 md:hover:bg-transparent md:border-0 md:hover:text-secondary  md:p-0  `}>Contacts</NavLink>
-            </li>
-            <li>
-            <NavLink to="/aboutus" onClick={() => setIsOpen(false)}  className={`block py-2 px-3 text-gray-100  rounded hover:bg-gray-800 md:hover:bg-transparent md:border-0 md:hover:text-secondary  md:p-0  `}>About Us</NavLink>
+            <NavLink to="/admin/users" onClick={() => setIsOpen(false)}  className={`block py-2 px-3 text-gray-100  rounded hover:bg-gray-800 md:hover:bg-transparent md:border-0 md:hover:text-secondary  md:p-0  `}>Users</NavLink>
             </li>
             <li>
             </li>
           </ul>
           
-          {    
-      userData ? (
-        <div className='hidden md:flex'>
-        <ul className='gap-2'
-            onClick={()=>setIsCardVisible(!isCardVisible)}
-        >
-        <li>
-            <button
-               onClick={() => setIsOpen(false)}  className={`flex bg items-center gap-2 py-2 px-3 text-gray-50  rounded  } `}>
-                <FaUserCircle size={32} className='text-2xl text-[#48af6e] hover:text-[#54ca7f]' />
-                <span className='hidden md:block text-gray-300'>{userData?.fullName.split(' ')[0]}</span>
-            </button>
-            </li>
-      </ul>
+          <ul className='flex  gap-2'
+                    onClick={()=>setIsCardVisible(!isCardVisible)}
+                >
+                <li>
+                    <button
+                      onClick={() => setIsOpen(false)}  className={`flex bg items-center gap-2 py-2 px-3 text-gray-50  rounded  } `}>
+                        <FaUserCircle size={32} className='text-2xl text-[#48af6e] hover:text-[#54ca7f]' />
+                        <p className='font-semibold'>Admin</p>
+                    </button>
+                    </li>
+              </ul>
 
-      {isCardVisible && (
-        <UserProfileCard ref={navRef}/>
-      )}
-      </div>
-      ):(<ul className='hidden md:flex gap-2'>
-      <li>
-          <NavLink to="/login" onClick={() => setIsOpen(false)}  className={`block py-2 px-5 text-gray-50   border hover:bg-gray-700 duration-500 ease-in-out cursor-pointer  rounded-xl  `}>Login</NavLink>
-          </li>
-          <li>
-          <NavLink to="/register" onClick={() => setIsOpen(false)}  className={`block py-2 px-3 text-gray-50  border hover:bg-gray-700 duration-500 ease-in-out cursor-pointer  rounded-xl`}>Register</NavLink>
-      </li> 
-  </ul>)
-          }
+              {isCardVisible && (
+                <div className='hidden absolute md:block right-0  shadow-lg'>
+                <UserProfileCard />
+                </div>
+              )}
         </div>
 
       </div>
@@ -157,4 +136,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default AdminNav;
