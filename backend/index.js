@@ -29,7 +29,8 @@ const UserSchema = new mongoose.Schema({
     email: String,
     phone: String,
     organization: String,
-    password: String
+    password: String,
+    role: String
 });
 const User = mongoose.model('User', UserSchema);
 
@@ -48,6 +49,7 @@ const BookingSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     inventory: { type: mongoose.Schema.Types.ObjectId, ref: 'Inventory' },
     startDate: Date,
+    status: String, 
     rentalPeriod: String
 });
 const Booking = mongoose.model('Booking', BookingSchema);
@@ -61,7 +63,6 @@ app.get('/',(req,res)=>{
 
 // login
 app.post('/api/auth/login', async (req, res) => {
-    console.log("Login request received");
     const { email, password } = req.body;
     console.log(email);
     const user = await User.findOne({ email });
@@ -74,14 +75,17 @@ app.post('/api/auth/login', async (req, res) => {
         console.log("Invalid password");
         return res.status(401).json({ message: 'Invalid email or password' });
     }
-    console.log("User logged in successfully");
+    console.log("User logged in successfully", user.role);
+    console.log(user);
     // Return a success response
-    const userData= {
+    const userData = {
+        userID: user._id,
         fullName: user.fullName,
         email: user.email,
         phone: user.phone,
-        organization: user.organization
-    }
+        organization: user.organization,
+        role: user.role
+      };
     
     return res.status(200).json({ message: 'success', user: userData });
 });
@@ -108,7 +112,8 @@ app.post('/api/auth/register', async (req, res) => {
             email,
             phone,
             organization,
-            password: hashedPassword
+            password: hashedPassword,
+            role: "user"
         });
 
         const response = await newUser.save();
@@ -155,17 +160,84 @@ app.get('/api/inventory/:id', async (req, res) => {
 
 
 // Book an inventory
-app.post('/api/bookInventory', async (req, res) => {
-    const { userId, inventoryId, startDate, rentalPeriod } = req.body;
+app.post('/api/rent', async (req, res) => {
+    const { userId, equipmentId, startDate, rentalPeriod } = req.body;
+    console.log(userId, equipmentId, startDate, rentalPeriod);
     const newBooking = new Booking({
         user: userId,
-        inventory: inventoryId,
+        inventory: equipmentId,
         startDate,
-        rentalPeriod
+        rentalPeriod,
+        status: 'pending'
     });
     const response = await newBooking.save();
     console.log("Booking added successfully", response);
-    return res.status(201).json({ message: 'Booking added successfully', booking: response });
+    return res.status(200).json({ message: 'Booking added successfully', booking: response });
+});
+
+
+
+
+// fetch all bookings
+app.get('/api/try', async (req, res) => {
+    try {
+        const bookings = await Booking.find()
+        .populate('user', 'fullName phone')
+        .populate('inventory', 'title');
+        return res.status(200).json({ message: 'success', bookings: bookings });
+    } catch (error) {
+        return res.status(500).json({ message: 'error', error: error.message });
+    }
+});
+
+app.get('/api/bookings', async (req, res) => {
+    try {
+      const bookings = await Booking.find()
+        .populate('user', 'fullName phone')
+        .populate('inventory', 'title')
+      return res.status(200).json({ message: 'success', bookings: bookings });
+    } catch (error) {
+      return res.status(500).json({ message: 'error', error: error.message });
+    }
+  });
+  
+  
+
+
+// change booking status to accepted or rejected
+app.put('/api/bookings/:id', async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+    const booking = await Booking.findByIdAndUpdate(id, { status }, { new: true });
+    console.log("Booking status updated successfully", booking);
+    return res.status(200).json({ message: 'Booking status updated successfully', booking: booking });
+});
+
+
+// change the availability of the inventory
+app.put('/api/update/inventory/:id', async (req, res) => {
+    const { id } = req.params;
+    const { availability } = req.body;
+    const inventory = await Inventory.findByIdAndUpdate(id, { availability }, { new: true });
+    console.log("Inventory updated successfully", inventory);
+    return res.status(200).json({ message: 'Inventory updated successfully', inventory: inventory });
+});
+
+// delete an inventory
+app.delete('/api/delete/inventory/:id', async (req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    const inventory = await Inventory.findByIdAndDelete(id); 
+    console.log("Inventory deleted successfully", inventory);
+    return res.status(200).json({ message: 'Inventory deleted successfully', inventory: inventory });
+});
+
+// delete a booking
+app.delete('/api/bookings/:id', async (req, res) => {
+    const { id } = req.params;
+    const booking = await Booking.findByIdAndDelete(id);
+    console.log("Booking deleted successfully", booking);
+    return res.status(200).json({ message: 'Booking deleted successfully', booking: booking });
 });
 
 

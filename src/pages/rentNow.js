@@ -172,12 +172,14 @@
 import { NavLink, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function EquipmentRent() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [equipmentItem, setEquipmentItem] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [renting, setRenting]=useState(false)
   const [error, setError] = useState(null);
   
   useEffect(() => {
@@ -213,11 +215,11 @@ export default function EquipmentRent() {
     fetchEquipmentItem();
   }, [id]);
 
-  const [form, setForm] = useState({
+  const [formData, setForm] = useState({
     startDate: '',
     rentalPeriod: '',
     paymentMethod: '',
-    termsAgreed: false,
+    // termsAgreed: false,
   });
 
   const handleChange = (e) => {
@@ -229,19 +231,65 @@ export default function EquipmentRent() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className='flex justify-center items-center min-h-[60vh]'>Loading...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className='flex justify-center items-center min-h-[60vh]'>{error}</div>;
   }
 
   if (!equipmentItem) {
-    return <div>Item not found</div>;
+    return <div className='flex justify-center items-center min-h-[60vh]'>Item not found</div>;
   }
 
+  // console.log(equipmentItem._id);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("hell");
+    try {
+      setRenting(true)
+      const response = await fetch('https://medrent-server.vercel.app/api/rent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: userData.userID,
+          equipmentId: equipmentItem._id,
+          startDate: formData.startDate,
+          rentalPeriod: formData.rentalPeriod,
+          paymentMethod: formData.paymentMethod,
+        }),
+      })
+
+      if (response.ok) {
+        toast.success('Equipment rented successfully',{
+          duration: 2000,
+          position: 'top-center',
+        });
+        // navigate('/profile');
+        setForm({
+          startDate: '',
+          rentalPeriod: '',
+          paymentMethod: '',
+          termsAgreed: false,
+        });
+      }
+      else throw new Error('Failed to rent equipment');
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Failed to rent equipment', {
+        duration: 2000,
+        position: 'top-center',
+      });
+    }finally{
+      setRenting(false)
+    }
+  };
+
   return (
-    <div className="container mx-auto py-8 px-4 md:px-6">
+    <div className="container mx-auto py-8 px-4 md:px-36">
       <h1 className="text-3xl font-bold mb-6">{equipmentItem.title}</h1>
       <p className="text-gray-500 mb-4">{equipmentItem.description}</p>
       <div className="flex justify-between items-center mb-6">
@@ -250,30 +298,29 @@ export default function EquipmentRent() {
           {equipmentItem.availability}
         </span>
       </div>
-
       <div>
         <h3 className="text-lg font-semibold mb-2">Rent this equipment</h3>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700 mb-2">Start Date</label>
             <input
               type="date"
               name="startDate"
-              value={form.startDate}
+              value={formData.startDate}
               onChange={handleChange}
               className="border rounded-md p-2 w-full"
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Rental Period (days)</label>
+            <label className="block text-gray-700 mb-2">Rental Period (weeks)</label>
             <input
               type="number"
               name="rentalPeriod"
-              value={form.rentalPeriod}
+              value={formData.rentalPeriod}
               onChange={handleChange}
               className="border rounded-md p-2 w-full"
-              placeholder="Number of days"
+              placeholder="Number of weeks"
               required
             />
           </div>
@@ -290,7 +337,7 @@ export default function EquipmentRent() {
               <input
                 type="checkbox"
                 name="termsAgreed"
-                checked={form.termsAgreed}
+                checked={formData.termsAgreed}
                 onChange={handleChange}
                 className="mr-2"
                 required
@@ -300,12 +347,14 @@ export default function EquipmentRent() {
           </div>
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-md"
+            disabled={renting}
+            className="bg-blue-500 disabled:cursor-not-allowed disabled:bg-gray-400 text-white px-4 py-2 rounded-md"
           >
-            Rent Now
+           {renting ? 'Renting...' : 'Rent Now'}
           </button>
         </form>
       </div>
+      <Toaster />
     </div>
   );
 }

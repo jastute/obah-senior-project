@@ -45,11 +45,17 @@ if (response.status === 200) {
     // store the data in session storage
     sessionStorage.setItem("user", JSON.stringify(data.user));
     
-      // redirect to dashboard
-      setTimeout(() => {
-        window.location.href = "/";
+    if(data.user.role === "admin"){
+      navigate("/admin")
+    }
+    else{
+      navigate("/")
+    }
+      // // redirect to dashboard
+      // setTimeout(() => {
+      //   window.location.href = "/";
         
-      },1000)
+      // },1000)
     }else if (response.status === 401) throw new Error("Invalid credentials")
      else throw new Error("Login failed");
     } catch (error) {

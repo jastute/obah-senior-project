@@ -44,6 +44,7 @@ function AddInventory({ Equipmemnts, setVisibility }) {
           availability: 'in stock',
           itemtype: 'mobility',
         });
+        window.location.reload();
         // setVisibility(false);
       } else throw new Error("Failed to add item");
     } catch (error) {
