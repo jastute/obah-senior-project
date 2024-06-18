@@ -13,7 +13,7 @@ function Home() {
               Our rental service provides high-quality medical equipment for all your needs. Get the equipment you need,
               when you need it.
             </p>
-            <NavLink to="/register" className="px-6 py-3 border rounded-xl hover:bg-gray-700 duration-500 ease-in-out" variant="primary">
+            <NavLink to="/equipmemts" className="px-6 py-3 border rounded-xl hover:bg-gray-700 duration-500 ease-in-out" variant="primary">
               Rent Now
             </NavLink>
           </div>
