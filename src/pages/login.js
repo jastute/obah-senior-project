@@ -49,7 +49,7 @@ if (response.status === 200) {
       navigate("/admin")
     }
     else{
-      navigate("/")
+      navigate("/user/profile")
     }
       // // redirect to dashboard
       // setTimeout(() => {

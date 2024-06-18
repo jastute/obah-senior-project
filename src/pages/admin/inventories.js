@@ -177,7 +177,7 @@ const Inventory = () => {
 
   // Change inventory availability
   const handleAvailabilityChange = async (id, newAvailability) => {
-    console.log('Inventory availability changed:', id, newAvailability);
+    // console.log('Inventory availability changed:', id, newAvailability);
     try {
       const response = await fetch(`https://medrent-server.vercel.app/api/update/inventory/${id}`, {
         method: 'PUT',
@@ -192,7 +192,7 @@ const Inventory = () => {
         // Update the UI or handle success as needed
         setEquipmentList(prevList =>
           prevList?.map(item =>
-            item.id === id ? { ...item, availability: newAvailability } : item
+            item._id === id ? { ...item, availability: newAvailability } : item
           )
         );
         console.log('Inventory availability updated successfully:', data.inventory);

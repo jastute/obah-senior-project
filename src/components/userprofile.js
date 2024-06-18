@@ -30,12 +30,22 @@ const UserProfileCard = () => {
       <p className="text-sm text-gray-500">{userData?.organisation}</p>
     </div>
     <div className="grid w-full gap-2">
+      {userData?.role === 'admin' ? (
+        <NavLink
+          className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          to="/admin"
+        >
+          Admin Dashboard
+        </NavLink>
+      ):(
       <NavLink
         className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        to="#"
+        to="/user/profile"
       >
         View Profile
       </NavLink>
+      )}
+      
       <button onClick={() => {
         if (window.confirm('Are you sure you want to logout?')) {
         sessionStorage.removeItem('user');

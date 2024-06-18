@@ -179,16 +179,6 @@ app.post('/api/rent', async (req, res) => {
 
 
 // fetch all bookings
-app.get('/api/try', async (req, res) => {
-    try {
-        const bookings = await Booking.find()
-        .populate('user', 'fullName phone')
-        .populate('inventory', 'title');
-        return res.status(200).json({ message: 'success', bookings: bookings });
-    } catch (error) {
-        return res.status(500).json({ message: 'error', error: error.message });
-    }
-});
 
 app.get('/api/bookings', async (req, res) => {
     try {
@@ -200,6 +190,19 @@ app.get('/api/bookings', async (req, res) => {
       return res.status(500).json({ message: 'error', error: error.message });
     }
   });
+
+  // fetch single booking by user id
+app.get('/api/bookings/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const bookings = await Booking.find({ user: id })
+        .populate('user', 'fullName phone')
+        .populate('inventory', 'title');
+        return res.status(200).json({ message: 'success', bookings: bookings });
+    } catch (error) {
+        return res.status(500).json({ message: 'error', error: error.message });
+    }
+});
   
   
 

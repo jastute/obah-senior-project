@@ -49,6 +49,8 @@ import EquipmentRent from './pages/rentNow';
 import Dashboard from './pages/admin/dashbaord';
 import AdminNav from './components/adminNav';
 import Inventory from './pages/admin/inventories';
+import UserProfile from './pages/profile';
+import TermsAndConditions from './pages/terms&condition';
 
 function Main() {
   const location = useLocation();
@@ -61,8 +63,10 @@ function Main() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/user/profile" element={<UserProfile />} />
         <Route path="/aboutus" element={<Contacts />} />
         <Route path="/equipmemts" element={<Equipments />} />
+        <Route path="/terms&condtion" element={<TermsAndConditions />} />
         <Route path="/equipmemts/:id" element={<EquipmentRent />} />
         <Route path="/admin/" element={<Dashboard />} />
         <Route path="/admin/inventory" element={<Inventory />} />

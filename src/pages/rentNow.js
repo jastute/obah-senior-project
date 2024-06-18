@@ -342,16 +342,30 @@ export default function EquipmentRent() {
                 className="mr-2"
                 required
               />
-              I agree to the <NavLink to="terms&condition">terms and conditions</NavLink>
+              I agree to the &nbsp; <NavLink to="/terms&condtion" className={"underline"}>terms and conditions</NavLink>
             </label>
           </div>
-          <button
-            type="submit"
-            disabled={renting}
-            className="bg-blue-500 disabled:cursor-not-allowed disabled:bg-gray-400 text-white px-4 py-2 rounded-md"
-          >
-           {renting ? 'Renting...' : 'Rent Now'}
-          </button>
+          {equipmentItem.availability==="out of stock" ? (
+            <div>
+              <button
+                    type="submit"
+                    disabled
+                    className="bg-blue-500 disabled:cursor-not-allowed disabled:bg-gray-400 text-white px-4 py-2 rounded-md"
+                  >
+                  Out of Stock
+              </button>
+            </div>
+            ):(
+            <div>
+              <button
+                type="submit"
+                disabled={renting}
+                className="bg-blue-500 disabled:cursor-not-allowed disabled:bg-gray-400 text-white px-4 py-2 rounded-md"
+              >
+              {renting ? 'Renting...' : 'Rent Now'}
+              </button>
+            </div>
+            )}
         </form>
       </div>
       <Toaster />

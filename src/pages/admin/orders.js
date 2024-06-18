@@ -133,7 +133,7 @@ const Orders = () => {
             equipment: booking.inventory?.title, 
             rentingPeriod: `${booking.rentalPeriod} weeks`, 
             phoneNumber: booking.user?.phone, 
-            status: "Pending",
+            status: booking.status,
             pickUpDate: new Date(booking.startDate).toLocaleDateString(),
             
           })));
@@ -238,18 +238,18 @@ const Orders = () => {
                 </td>
                 <td className="py-2 px-4 border-b">{order.pickUpDate}</td>
                 <td className="py-2 px-4 border-b flex">
-                  {order.status === 'Pending' && (
+                  {order.status === 'pending' && (
                     <>
-                      <button onClick={() => handleChangeStatus(order.id, 'Accepted')} className="px-2 py-1 bg-green-500 text-white rounded mr-2">Accept</button>
-                      <button onClick={() => handleChangeStatus(order.id, 'Rejected')} className="px-2 py-1 bg-red-500 text-white rounded">Reject</button>
+                      <button onClick={() => handleChangeStatus(order.id, 'accepted')} className="px-2 py-1 bg-green-500 text-white rounded mr-2">Accept</button>
+                      <button onClick={() => handleChangeStatus(order.id, 'rejected')} className="px-2 py-1 bg-red-500 text-white rounded">Reject</button>
                     </>
                   )}
-                  {order.status === 'Accepted' && (
+                  {order.status === 'accepted' && (
                     <>
                       <button className="px-2 py-1 bg-gray-300 cursor-not-allowed text-white rounded mr-2 disabled">Accepted</button>
                     </>
                   )}
-                  {order.status === 'Rejected' && (
+                  {order.status === 'rejected' && (
                     <>
                       <button className="px-2 py-1 bg-gray-300 cursor-not-allowed text-white rounded mr-2 disabled">Rejected</button>
                     </>
