@@ -104,10 +104,9 @@ function AdminNav() {
             <li>
                 <NavLink to="/admin/inventory" onClick={() => setIsOpen(false)}  className={`block py-2 px-3 text-gray-100  rounded hover:bg-gray-800 md:hover:bg-transparent md:border-0 md:hover:text-secondary  md:p-0  `}>Inventory</NavLink>
             </li>
-
-            <li>
+            {/* <li>
             <NavLink to="/admin/users" onClick={() => setIsOpen(false)}  className={`block py-2 px-3 text-gray-100  rounded hover:bg-gray-800 md:hover:bg-transparent md:border-0 md:hover:text-secondary  md:p-0  `}>Users</NavLink>
-            </li>
+            </li> */}
             <li>
             </li>
           </ul>
