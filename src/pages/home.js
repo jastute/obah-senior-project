@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 function Home() {
   return (
-    <main>
+    <main className='font-poppins'>
         <section className="bg-gray-900 text-white py-20 px-6 md:px-8 lg:px-10 relative">
         <div className="container mx-auto grid grid-cols-1  gap-8 items-center text-center  relative z-10">
           <div>

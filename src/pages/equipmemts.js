@@ -51,7 +51,7 @@ export default function Equipments() {
   };
 
   return (
-    <div className="container mx-auto py-8 px-4 md:px-6">
+    <div className="container mx-auto py-8 px-4 md:px-6 font-poppins">
       <h1 className="text-3xl font-bold mb-6">Medical Equipment Rental</h1>
        <EquipmentFilters
         filters={filters}

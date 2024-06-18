@@ -66,7 +66,7 @@ useEffect(() => {
 
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 min-h-[70vh]">
+    <div className="bg-white rounded-lg shadow-md p-6 min-h-[70vh] font-poppins">
       <div className="flex items-center mb-4 justify-center">
         <div className="mr-4">
           <img
@@ -98,7 +98,7 @@ useEffect(() => {
                 <p className="text-gray-600">
                   <b>Rental Period:</b> {booking.rentingPeriod}
                 </p>
-                <p className="text-gray-600"><b>Status:</b> {booking.status}</p>
+                <p className="text-gray-600 py-1"><b>Status:</b> <span className={`${booking.status==='pending'? "bg-yellow-100 text-yellow-800": booking.status==='accepted'? "bg-green-100 text-green-800":"bg-red-100 text-red-800"} rounded-md px-2 py-0.5`}>{booking.status}</span></p>
                 <p className="text-gray-600">
                   <b>Pick Up Date:</b> {booking.pickUpDate}
                 </p>

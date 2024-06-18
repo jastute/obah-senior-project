@@ -50,7 +50,8 @@ const BookingSchema = new mongoose.Schema({
     inventory: { type: mongoose.Schema.Types.ObjectId, ref: 'Inventory' },
     startDate: Date,
     status: String, 
-    rentalPeriod: String
+    rentalPeriod: String,
+    createdAt: { type: Date, default: Date.now }
 });
 const Booking = mongoose.model('Booking', BookingSchema);
 
@@ -168,7 +169,8 @@ app.post('/api/rent', async (req, res) => {
         inventory: equipmentId,
         startDate,
         rentalPeriod,
-        status: 'pending'
+        status: 'pending',
+        createdAt: Date.now()
     });
     const response = await newBooking.save();
     console.log("Booking added successfully", response);
