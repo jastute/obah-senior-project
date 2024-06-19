@@ -186,7 +186,7 @@ app.get('/api/bookings', async (req, res) => {
     try {
       const bookings = await Booking.find()
         .populate('user', 'fullName phone')
-        .populate('inventory', 'title price')
+        .populate('inventory', 'title')
       return res.status(200).json({ message: 'success', bookings: bookings });
     } catch (error) {
       return res.status(500).json({ message: 'error', error: error.message });
@@ -199,7 +199,7 @@ app.get('/api/bookings/:id', async (req, res) => {
     try {
         const bookings = await Booking.find({ user: id })
         .populate('user', 'fullName phone')
-        .populate('inventory', 'title');
+        .populate('inventory', 'title price');
         return res.status(200).json({ message: 'success', bookings: bookings });
     } catch (error) {
         return res.status(500).json({ message: 'error', error: error.message });

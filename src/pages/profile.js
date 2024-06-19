@@ -21,24 +21,27 @@ const UserProfile = () => {
       setLoading(false);
     }
   }, [loading]);
-  console.log(user);
 
 
 
 //   fetch your orders
 const [bookings, setBooking] = useState([]);
 const [fetching, setFetching] = useState(true);
+// console.log(bookings);
+
 
 useEffect(() => {
   const fetchOrders = async () => {
     try {
       const response = await fetch(`https://medrent-server.vercel.app/api/bookings/${user?.userID}`);
       const data = await response.json();
+      console.log(data);
       if (data.message === 'success') {
         setBooking(data.bookings.map(booking => ({
           id: booking._id,
           customer: booking.user?.fullName, 
           equipment: booking.inventory?.title, 
+          price: booking.inventory?.price, 
           rentingPeriod: `${booking.rentalPeriod} weeks`, 
           phoneNumber: booking.user?.phone, 
           status: booking.status,
