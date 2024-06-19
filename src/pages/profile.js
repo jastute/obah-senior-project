@@ -89,7 +89,7 @@ const UserProfile = () => {
         </div>
         {bookings.length > 0 && <div className="  md:w-1/3 md:border-l-2 md:pl-12 mx-2 mt-7">
           <h3 className="text-lg font-semibold mb-2">Payment Guide</h3>
-          <p className="text-gray-600 mb-2"><b>N/B:</b> Half of the payment should be done upon delivery while the rest will be made as booking period proceed or at the end:</p>
+          <p className="text-gray-600 mb-2"><b>N/B:</b> Half of the payment should be done upon delivery of the equipment while the rest will be made within the period you have rented</p>
           <ul className="text-gray-600">
             <li><span className='font-semibold'>M-Pesa </span>(Send to 0721349587)</li>
             <li> <span className='font-semibold'>Bank Transfer </span> (Equity Account No: 987654321)</li>
