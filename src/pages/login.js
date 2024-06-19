@@ -46,10 +46,15 @@ if (response.status === 200) {
     sessionStorage.setItem("user", JSON.stringify(data.user));
     
     if(data.user.role === "admin"){
-      navigate("/admin")
+      
+      setTimeout(() => {
+        window.location.href="/admin"
+      },1000)
     }
     else{
-      navigate("/user/profile")
+      setTimeout(() => {
+        window.location.href="/user/profile"
+      },1000)
     }
       // // redirect to dashboard
       // setTimeout(() => {

@@ -17,6 +17,8 @@ const UserProfileCard = () => {
     }
   }, []);
 
+  console.log(userData);
+
 
  return (
   <div
