@@ -51,7 +51,7 @@ const UserProfileCard = () => {
       <button onClick={() => {
         if (window.confirm('Are you sure you want to logout?')) {
         sessionStorage.removeItem('user');
-        window.location.location="/login";
+        window.location.href="/login";
         }
       }}
         className="inline-flex h-9 items-center justify-center rounded-md border border-gray-200 bg-red-600 px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-red-500  focus:outline-none focus:ring-2 focus:ring-red-500"
