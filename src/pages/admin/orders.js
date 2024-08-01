@@ -131,7 +131,10 @@ const Orders = () => {
     
     // Add title to the document
     doc.setFontSize(18);
-    doc.text('Bookings Report', 14, 22);
+    doc.setTextColor(255, 255, 255);
+    doc.setFillColor(52, 152, 219); // Light blue color from the image
+    doc.rect(0, 0, 210, 40, 'F');
+    doc.text('Bookings Report', 14, 28);
     
     // Define the columns for the table
     const columns = [
@@ -142,25 +145,36 @@ const Orders = () => {
       { header: 'Status', dataKey: 'status' },
       { header: 'Pick Up Date', dataKey: 'pickUpDate' },
     ];
-
+  
     // Create the table
     doc.autoTable({
       columns: columns,
       body: filteredOrders,
-      startY: 30,
+      startY: 45,
       styles: { fontSize: 8 },
       columnStyles: { 0: { cellWidth: 30 } },
-      headerStyles: { fillColor: [200, 200, 200], textColor: 20 },
+      headerStyles: { 
+        fillColor: [52, 152, 219], // Light blue color from the image
+        textColor: 255, 
+        fontStyle: 'bold' 
+      },
+      alternateRowStyles: {
+        fillColor: [240, 248, 255] // Very light blue for alternate rows
+      },
+      bodyStyles: {
+        textColor: 0 // Black text for better readability
+      }
     });
-
+  
     // Save the PDF
     doc.save('bookings-report.pdf');
-
+  
     toast.success('PDF report downloaded successfully!', {
       duration: 3000,
       position: 'top-center',
     });
   };
+  
 
   if (loading) {
     return <div className='flex justify-center items-center min-h-30vh'>Loading...</div>;
@@ -170,7 +184,7 @@ const Orders = () => {
     <div className="min-h-screen p-4">
       <h1 className="text-2xl font-semibold mb-4 text-center">Bookings</h1>
 
-      <div className="mb-4 flex justify-between items-center">
+      <div className="mb-4 flex flex-wrap justify-between items-center">
         <div>
           <label htmlFor="statusFilter" className="mr-2">Filter by Status:</label>
           <select
@@ -187,7 +201,7 @@ const Orders = () => {
         </div>
         <button
           onClick={downloadPDFReport}
-          className="px-4 py-2 bg-blue-500 text-white rounded flex items-center"
+          className="px-4 py-2 bg-blue-500 mt-4 sm:mt-0 text-white rounded flex items-center"
         >
           <FaDownload className="mr-2" /> Download Report
         </button>

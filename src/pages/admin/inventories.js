@@ -410,13 +410,17 @@ const Inventory = () => {
     ? equipmentList 
     : equipmentList.filter(item => item.availability === filter);
 
-  // Generate and download PDF report
+
+
   const downloadPDFReport = () => {
     const doc = new jsPDF();
     
     // Add title to the document
     doc.setFontSize(18);
-    doc.text('Inventory Report', 14, 22);
+    doc.setTextColor(255, 255, 255);
+    doc.setFillColor(52, 152, 219); // Light blue color from the image
+    doc.rect(0, 0, 210, 40, 'F');
+    doc.text('Inventory Report', 14, 28);
     
     // Define the columns for the table
     const columns = [
@@ -426,26 +430,36 @@ const Inventory = () => {
       { header: 'Availability', dataKey: 'availability' },
       { header: 'Type', dataKey: 'type' },
     ];
-
+  
     // Create the table
     doc.autoTable({
       columns: columns,
       body: filteredEquipmentList,
-      startY: 30,
+      startY: 45,
       styles: { fontSize: 8 },
       columnStyles: { 0: { cellWidth: 30 } },
-      headerStyles: { fillColor: [200, 200, 200], textColor: 20 },
+      headerStyles: { 
+        fillColor: [52, 152, 219], // Light blue color from the image
+        textColor: 255, 
+        fontStyle: 'bold' 
+      },
+      alternateRowStyles: {
+        fillColor: [240, 248, 255] // Very light blue for alternate rows
+      },
+      bodyStyles: {
+        textColor: 0 // Black text for better readability
+      }
     });
-
+  
     // Save the PDF
     doc.save('inventory-report.pdf');
-
+  
     toast.success('PDF report downloaded successfully!', {
       duration: 3000,
       position: 'top-center',
     });
   };
-
+  
   // if loading
   if (loading) {
     return <div className='min-h-[70vh] flex justify-center items-center'>Loading...</div>;
@@ -454,7 +468,7 @@ const Inventory = () => {
   return (
     <div className="min-h-screen p-4">
       <h1 className="text-2xl font-semibold mb-4">Available Inventories</h1>
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex flex-wrap justify-between items-center mb-4">
         <div className="flex space-x-4">
           {/* add new inventory button */}
           <button
@@ -478,7 +492,7 @@ const Inventory = () => {
         {/* download report button */}
         <button
           onClick={downloadPDFReport}
-          className="px-4 py-2 bg-green-500 hover:bg-green-700 hover:ring-2 text-white rounded flex items-center"
+          className="px-4 py-2 bg-green-500 mt-2 sm:mt-0 hover:bg-green-700 hover:ring-2 text-white rounded flex items-center"
         >
           <FaDownload className="mr-2" /> Download Report
         </button>
