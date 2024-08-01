@@ -246,6 +246,107 @@ app.delete('/api/bookings/:id', async (req, res) => {
 });
 
 
+  
+// // function to generate access token 
+// async function generateAccessToken() {
+//     const consumerKey='nns5OYNb4yoeaFbUyk4kCkfzcfOvMkzyBeukIgtxrpuvOY6Q'
+//     const consumerSecret='lCNIQjWymgSrx8KHho2DMVTZ9GUvBPgVRzcr4um1yAXtp6FRHjGlYGOAzTnWyBgg'
+
+//     const auth = `${consumerKey}:${consumerSecret}`;
+//     const encodedAuth = Buffer.from(auth).toString('base64');
+//     const response = await fetch('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials', {
+//         method: 'GET',
+//         headers: {
+//             'Authorization': `Basic ${encodedAuth}`,
+//         },
+//     });
+//     return response.data.access_token;
+//     // const data = await response.json();
+//     // return data.access_token;
+// }
+
+const base64 = require('base-64');
+const axios = require('axios');
+
+async function generateAccessToken() {
+    const consumer_key = 'nns5OYNb4yoeaFbUyk4kCkfzcfOvMkzyBeukIgtxrpuvOY6Q';
+    const consumer_secret = 'lCNIQjWymgSrx8KHho2DMVTZ9GUvBPgVRzcr4um1yAXtp6FRHjGlYGOAzTnWyBgg';
+    const url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
+    
+    const auth = base64.encode(`${consumer_key}:${consumer_secret}`);
+    
+    try {
+        const response = await axios.get(url, {
+            headers: {
+                "Authorization": `Basic ${auth}`
+            }
+        });
+        return response.data.access_token;
+    } catch (error) {
+        console.log('Error generating access token:');
+        throw error;
+    }
+}
+
+
+
+// INTEGRATE PAYMENT WITH SAFARICOM DARAJA API
+app.post('/api/initiate-payment',async (req,res)=>{
+    const {amount, phone} = req.body;
+    console.log(amount, phone); 
+ 
+    try {
+        const token = await generateAccessToken();
+        const url='https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+        const header = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+
+        const options = {
+            method: 'POST',
+            headers: header,
+            body: JSON.stringify({
+                BusinessShortCode: '174379',
+                Password: 'MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMjQwNzMwMTc0NTE3',
+                Timestamp: '20240730174517',
+                TransactionType: 'CustomerPayBillOnline',
+                Amount: amount,
+                PartyA: phone,
+                PartyB: '174379',
+                PhoneNumber: phone,
+                CallBackURL: 'https://medrent.vercel.app/',
+                AccountReference: 'JASTUTE SOLUTIONS',
+                TransactionDesc: 'Payment of medrent equipment rent'
+            })
+        }
+        fetch(url, options)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                res.status(200).json(data);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json(err);
+            })
+    } catch (error) {
+        if (error.response) {
+            console.error('Status:', error.response.status);
+            console.error('Data:', error.response.data);
+            console.error('Headers:', error.response.headers);
+            res.status(error.response.status).send(error.response.data);
+        } else if (error.request) {
+            console.error('Request:', error.request);
+            res.status(500).send('No response received from server');
+        } else {
+            console.error('Error Message:', error.message);
+            res.status(500).send(error.message);
+        }
+    }
+})
+
+
 
 
 
