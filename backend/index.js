@@ -5,7 +5,11 @@ const port = 8000;
 const bodyParser = require('body-parser');    
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt'); // to hash passwords
+const base64 = require('base-64');
+const axios = require('axios');
 
+// Import models
+const { User, Inventory, Booking } = require('./models');
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
@@ -23,37 +27,37 @@ db.once('open', function() {
     console.log('connected to MongoDB');
 });
 
-// User schema and model
-const UserSchema = new mongoose.Schema({
-    fullName: String,
-    email: String,
-    phone: String,
-    organization: String,
-    password: String,
-    role: String
-});
-const User = mongoose.model('User', UserSchema);
+// // User schema and model
+// const UserSchema = new mongoose.Schema({
+//     fullName: String,
+//     email: String,
+//     phone: String,
+//     organization: String,
+//     password: String,
+//     role: String
+// });
+// const User = mongoose.model('User', UserSchema);
 
-// Inventory schema and model
-const InventorySchema = new mongoose.Schema({
-    title: String,
-    description: String,
-    price: String,
-    availability: String,
-    type: String
-});
-const Inventory = mongoose.model('Inventory', InventorySchema);
+// // Inventory schema and model
+// const InventorySchema = new mongoose.Schema({
+//     title: String,
+//     description: String,
+//     price: String,
+//     availability: String,
+//     type: String
+// });
+// const Inventory = mongoose.model('Inventory', InventorySchema);
 
-//Booking schema and model
-const BookingSchema = new mongoose.Schema({
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    inventory: { type: mongoose.Schema.Types.ObjectId, ref: 'Inventory' },
-    startDate: Date,
-    status: String, 
-    rentalPeriod: String,
-    createdAt: { type: Date, default: Date.now }
-});
-const Booking = mongoose.model('Booking', BookingSchema);
+// //Booking schema and model
+// const BookingSchema = new mongoose.Schema({
+//     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+//     inventory: { type: mongoose.Schema.Types.ObjectId, ref: 'Inventory' },
+//     startDate: Date,
+//     status: String, 
+//     rentalPeriod: String,
+//     createdAt: { type: Date, default: Date.now }
+// });
+// const Booking = mongoose.model('Booking', BookingSchema);
 
 
 app.get('/',(req,res)=>{
@@ -265,8 +269,7 @@ app.delete('/api/bookings/:id', async (req, res) => {
 //     // return data.access_token;
 // }
 
-const base64 = require('base-64');
-const axios = require('axios');
+
 
 async function generateAccessToken() {
     const consumer_key = 'nns5OYNb4yoeaFbUyk4kCkfzcfOvMkzyBeukIgtxrpuvOY6Q';
