@@ -290,7 +290,7 @@ export default function EquipmentRent() {
     
     try {
       setCheckoutloading(true);
-      const response = await fetch('http://localhost:8000/api/initiate-payment', {
+      const response = await fetch('https://medrent-server.vercel.app/api/initiate-payment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
