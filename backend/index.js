@@ -272,10 +272,8 @@ async function generateAccessToken() {
     const consumer_key = 'nns5OYNb4yoeaFbUyk4kCkfzcfOvMkzyBeukIgtxrpuvOY6Q';
     const consumer_secret = 'lCNIQjWymgSrx8KHho2DMVTZ9GUvBPgVRzcr4um1yAXtp6FRHjGlYGOAzTnWyBgg';
     const url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
-    
-    const auth = base64.encode(`${consumer_key}:${consumer_secret}`);
-    
     try {
+        const auth = base64.encode(`${consumer_key}:${consumer_secret}`);
         const response = await axios.get(url, {
             headers: {
                 "Authorization": `Basic ${auth}`
